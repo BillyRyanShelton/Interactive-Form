@@ -1,6 +1,8 @@
-//the first text input is put in focus when the page
+//text in focus when page loads
 $(':text:visible:first').focus();
 
+
+//JOB ROLE SECTION
 //hide other job title input text field
 $('#other-title').hide();
 
@@ -15,6 +17,8 @@ $('#title').change(function() {
 	}
 });
 
+
+//T-SHIRT INFO SECTION
 //all the js pun shirts are given the class js puns
 $('#color option[value="cornflowerblue"]').addClass('js puns');
 $('#color option[value="darkslategrey"]').addClass('js puns');
@@ -46,3 +50,86 @@ $('#design').change(function() {
 		$('#color option[class="heart js"]').show();
 	}
 });
+
+//$('.activities [name="all"]').attr('disabled', true);
+
+
+//REGISTER FOR ACTIVITIES SECTION
+let total = 0;
+let totalText = '<p></p>';
+$('.activities').append(totalText);
+
+//function to check/uncheck a checkbox and add/remove from the total
+function toggleSingleCheckbox(checkbox, cost) {
+	$(checkbox).change(	function() { 
+		//when the checkbox is checked, the total is updated
+		if($(checkbox).is(':checked')) {
+		total += cost;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+	} else{ 
+		//when the checkbox is unchecked, the total is updated
+		total -= cost;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+		if(total === 0) {
+			$('.activities p').text('');
+		}
+	}});
+}
+
+
+//function to toggle between two checkboxes and update the total
+function toggleTwoChecboxes(checkbox1, checkbox2) {
+	$(checkbox1).change( function() { 
+		//when checkbox1 is checked, checkbox2 is disabled
+		if($(checkbox1).is(':checked')) {
+		$(checkbox2).attr('disabled', true);
+		total += 100;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+	} else{ 
+		//when checkbox1 is unchecked, checkbox2 is enabled
+		$(checkbox2).attr('disabled', false);
+		total -= 100;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+		if(total === 0) {
+			$('.activities p').text('');
+		}
+	}});
+	$(checkbox2).change(	function() { 
+		//when checkbox2 is checked, checkbox1 is disabled
+		if($(checkbox2).is(':checked')) {
+		$(checkbox1).attr('disabled', true);
+		total += 100;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+	} else{ 
+		//when checkbox2 is unchecked, checkbox1 is enabled
+		$(checkbox1).attr('disabled', false);
+		total -= 100;
+		totalText = 'Total: $' + total;
+		$('.activities p').text(totalText);
+		if(total === 0) {
+			$('.activities p').text('');
+		}
+	}});
+}
+
+let mainConf = '.activities [name="all"]'
+toggleSingleCheckbox(mainConf, 200);
+
+let framework =  '.activities [name="js-frameworks"]';
+let express = '.activities [name="express"]';
+toggleTwoChecboxes(framework, express);
+
+let jsLibs =  '.activities [name="js-libs"]';
+let node = '.activities [name="node"]';
+toggleTwoChecboxes(jsLibs, node);
+
+let buildTools = '.activities [name="build-tools"]'
+toggleSingleCheckbox(buildTools, 100);
+
+let npm = '.activities [name="npm"]'
+toggleSingleCheckbox(npm, 100);
