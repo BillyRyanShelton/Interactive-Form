@@ -51,8 +51,6 @@ $('#design').change(function() {
 	}
 });
 
-//$('.activities [name="all"]').attr('disabled', true);
-
 
 //REGISTER FOR ACTIVITIES SECTION
 let total = 0;
@@ -133,3 +131,30 @@ toggleSingleCheckbox(buildTools, 100);
 
 let npm = '.activities [name="npm"]'
 toggleSingleCheckbox(npm, 100);
+
+
+//PAYMENT INFO SECTION
+
+//preload settings
+$('#credit-card').show();
+$('#paypal').hide();
+$('#bitcoin').hide();
+
+$('#payment').change(function() {
+	//if the user chooses js pun theme, only js pun theme shirts are displayed in the color drop down menu
+	if($('#payment').val() === 'credit card') {
+		$('#credit-card').show();
+		$('#paypal').hide();
+		$('#bitcoin').hide();
+	} 
+	else if($('#payment').val() === 'paypal') {
+		$('#credit-card').hide();
+		$('#paypal').show();
+		$('#bitcoin').hide();
+	} 
+	else {
+		$('#credit-card').hide();
+		$('#paypal').hide();
+		$('#bitcoin').show();
+	}
+});
