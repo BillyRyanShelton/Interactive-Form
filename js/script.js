@@ -178,4 +178,6 @@ function validation() {
 		$('#name').css('border-color','#c1deeb');
 		$('label[for="name"]').css('color','#000');
 	}
+
+	
 }
