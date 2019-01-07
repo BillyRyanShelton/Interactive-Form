@@ -161,23 +161,34 @@ $('#payment').change(function() {
 
 
 //FORM VALIDATION
-
-// $(':button').click(function() {
-// 	let userName = $(':input [name="user_name"]').value();
-// 	alert(userName);
-// });
-
 function validation() {
+	let condition = true;
+	//name validation
 	//if the name field is empty, the page is not submitted and the name border and title are highlighted red
 	if($('#name').val() === '') {
 		$('#name').css('border-color','#FF0901');
 		$('label[for="name"]').css('color','#FF0901');
-		return false;
+		condition = false;
 	} //if the name field is filled, the name border and title are changed to their originial color
 	else {
 		$('#name').css('border-color','#c1deeb');
 		$('label[for="name"]').css('color','#000');
 	}
 
-	
+	//email validation
+	//email regex is created
+	const EMAIL = /^[^\s]+@[^\s]+\.[a-z]+/;
+
+	let userEmail = $('#mail').val();
+	if(EMAIL.test(userEmail)) {
+		$('#mail').css('border-color','#c1deeb');
+		$('label[for="mail"]').css('color','#000');
+	} 
+	else {
+		$('#mail').css('border-color','#FF0901');
+		$('label[for="mail"]').css('color','#FF0901');
+		condition = false;
+	}
+
+	return condition;
 }
