@@ -56,6 +56,7 @@ $('#design').change(function() {
 let total = 0;
 let totalText = '<p></p>';
 $('.activities').append(totalText);
+let boxesChecked = 0;
 
 //function to check/uncheck a checkbox and add/remove from the total
 function toggleSingleCheckbox(checkbox, cost) {
@@ -65,10 +66,12 @@ function toggleSingleCheckbox(checkbox, cost) {
 		total += cost;
 		totalText = 'Total: $' + total;
 		$('.activities p').text(totalText);
+		boxesChecked++;
 	} else{ 
 		//when the checkbox is unchecked, the total is updated
 		total -= cost;
 		totalText = 'Total: $' + total;
+		boxesChecked--;
 		$('.activities p').text(totalText);
 		if(total === 0) {
 			$('.activities p').text('');
@@ -86,12 +89,14 @@ function toggleTwoChecboxes(checkbox1, checkbox2) {
 		total += 100;
 		totalText = 'Total: $' + total;
 		$('.activities p').text(totalText);
+		boxesChecked++;
 	} else{ 
 		//when checkbox1 is unchecked, checkbox2 is enabled
 		$(checkbox2).attr('disabled', false);
 		total -= 100;
 		totalText = 'Total: $' + total;
 		$('.activities p').text(totalText);
+		boxesChecked--;
 		if(total === 0) {
 			$('.activities p').text('');
 		}
@@ -103,12 +108,14 @@ function toggleTwoChecboxes(checkbox1, checkbox2) {
 		total += 100;
 		totalText = 'Total: $' + total;
 		$('.activities p').text(totalText);
+		boxesChecked++;
 	} else{ 
 		//when checkbox2 is unchecked, checkbox1 is enabled
 		$(checkbox1).attr('disabled', false);
 		total -= 100;
 		totalText = 'Total: $' + total;
 		$('.activities p').text(totalText);
+		boxesChecked--;
 		if(total === 0) {
 			$('.activities p').text('');
 		}
@@ -162,33 +169,57 @@ $('#payment').change(function() {
 
 //FORM VALIDATION
 function validation() {
-	let condition = true;
+	let condition = 0;
 	//name validation
 	//if the name field is empty, the page is not submitted and the name border and title are highlighted red
 	if($('#name').val() === '') {
 		$('#name').css('border-color','#FF0901');
 		$('label[for="name"]').css('color','#FF0901');
-		condition = false;
-	} //if the name field is filled, the name border and title are changed to their originial color
+		condition--;
+	} //if the name field is filled, the name border and title are changed to the correct color
 	else {
 		$('#name').css('border-color','#c1deeb');
 		$('label[for="name"]').css('color','#000');
+		condition++;
 	}
 
 	//email validation
 	//email regex is created
 	const EMAIL = /^[^\s]+@[^\s]+\.[a-z]+/;
-
 	let userEmail = $('#mail').val();
+	//if the email is a valid email address, the name border and title are changed to the correct color
 	if(EMAIL.test(userEmail)) {
 		$('#mail').css('border-color','#c1deeb');
 		$('label[for="mail"]').css('color','#000');
-	} 
+		condition++;
+	} //if the email is invalid, the page is not submitted and the email border and title are highlighted red
 	else {
 		$('#mail').css('border-color','#FF0901');
 		$('label[for="mail"]').css('color','#FF0901');
-		condition = false;
+		condition--;
 	}
 
-	return condition;
+	//activities registration validation
+	//if at least one box is checked, the activity section is valid
+	if(boxesChecked > 0) {
+		$('.activities legend').css('color','#000');
+		condition++;
+	} else {
+		condition--;
+		$('.activities legend').css('color','#FF0901');
+	}
+
+
+	//credit card validation
+
+	//zip code validation
+
+	//ccv validation
+
+	//if all 6 form checks were valid the submit button submits
+	if(condition === 3) {
+		return true;
+	} else {
+		return false;
+	}
 }
