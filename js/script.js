@@ -29,6 +29,10 @@ $('#color option[value="tomato"]').addClass('heart js');
 $('#color option[value="steelblue"]').addClass('heart js');
 $('#color option[value="dimgrey"]').addClass('heart js');
 
+//all the t-shirt colors are hidden by default
+$('#color option[class="js puns"]').hide();
+$('#color option[class="heart js"]').hide();
+
 //when the shirt design drop down menu is changed, only certain colors are displayed in the color drop down menu
 $('#design').change(function() {
 	//if the user chooses js pun theme, only js pun theme shirts are displayed in the color drop down menu
@@ -37,17 +41,22 @@ $('#design').change(function() {
 		$('#color option[class="js puns"]').show();
 		//hide all heart shirts
 		$('#color option[class="heart js"]').hide();
+		//hide select t-shirt option
+		$('#color option[value="tshirttheme"]').hide();
 	} //if the user chooses heart js theme, only heart js theme shirts are displayed in the color drop down menu 
 	else if($('#design').val() === 'heart js') {
 		//show all heart js shirts
 		$('#color option[class="heart js"]').show();
 		//hide all js pun shirts
 		$('#color option[class="js puns"]').hide();		
+		//hide select t-shirt option
+		$('#color option[value="tshirttheme"]').hide();
 	} //if the user chooses select theme, all shirts are displayed
 	else {
 		//show all shirts
-		$('#color option[class="js puns"]').show();
-		$('#color option[class="heart js"]').show();
+		$('#color option[class="js puns"]').hide();
+		$('#color option[class="heart js"]').hide();
+		$('#color option[value="tshirttheme"]').show();
 	}
 });
 
