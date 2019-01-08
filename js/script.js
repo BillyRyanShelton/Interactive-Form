@@ -167,59 +167,118 @@ $('#payment').change(function() {
 });
 
 
+
+
 //FORM VALIDATION
 function validation() {
-	let condition = 0;
 	//name validation
+	let isName = false;
 	//if the name field is empty, the page is not submitted and the name border and title are highlighted red
 	if($('#name').val() === '') {
 		$('#name').css('border-color','#FF0901');
 		$('label[for="name"]').css('color','#FF0901');
-		condition--;
+		isName = false;
 	} //if the name field is filled, the name border and title are changed to the correct color
 	else {
 		$('#name').css('border-color','#c1deeb');
 		$('label[for="name"]').css('color','#000');
-		condition++;
+		isName = true;
 	}
 
 	//email validation
 	//email regex is created
 	const EMAIL = /^[^\s]+@[^\s]+\.[a-z]+/;
 	let userEmail = $('#mail').val();
+	let isEmail = false;
 	//if the email is a valid email address, the name border and title are changed to the correct color
 	if(EMAIL.test(userEmail)) {
 		$('#mail').css('border-color','#c1deeb');
 		$('label[for="mail"]').css('color','#000');
-		condition++;
+		isEmail = true;
 	} //if the email is invalid, the page is not submitted and the email border and title are highlighted red
 	else {
 		$('#mail').css('border-color','#FF0901');
 		$('label[for="mail"]').css('color','#FF0901');
-		condition--;
+		isEmail = false;;
 	}
 
 	//activities registration validation
 	//if at least one box is checked, the activity section is valid
+	let isRegistered = false;
 	if(boxesChecked > 0) {
 		$('.activities legend').css('color','#000');
-		condition++;
+		isRegistered = true;
 	} else {
-		condition--;
+		isRegistered = false;
 		$('.activities legend').css('color','#FF0901');
 	}
 
-
 	//credit card validation
-
+	//credit card regex is created
+	const CREDITCARD = /\d\d\d\d\d\d\d\d\d\d\d\d\d[\d]?[\d]?[\d]?/;
+	let userCC = $('#cc-num').val();
+	let isCreditCard = false;
+	//if the credit card is valid, the name border and title are changed to the correct color
+	if(CREDITCARD.test(userCC) && $('#payment').val() === 'credit card') {
+		$('#cc-num').css('border-color','#c1deeb');
+		$('label[for="cc-num"]').css('color','#000');
+		isCreditCard = true;
+	} //if the credit card is invalid, the page is not submitted and the border and title are highlighted red
+	else if ($('#payment').val() === 'credit card') {
+		$('#cc-num').css('border-color','#FF0901');
+		$('label[for="cc-num"]').css('color','#FF0901');
+		isCreditCard = false;
+	}
 	//zip code validation
-
+	const ZIPCODE = /\d\d\d\d\d/;
+	let userZip = $('#zip').val();
+	let isZipCode = false;
+	//if the zip code is valid, the name border and title are changed to the correct color
+	if(ZIPCODE.test(userZip) && $('#payment').val() === 'credit card') {
+		$('#zip').css('border-color','#c1deeb');
+		$('label[for="zip"]').css('color','#000');
+		isZipCode = true;
+	} //if the zip code is invalid, the page is not submitted and the border and title are highlighted red
+	else if ($('#payment').val() === 'credit card') {
+		$('#zip').css('border-color','#FF0901');
+		$('label[for="zip"]').css('color','#FF0901');
+		isZipCode = false;
+	}
 	//ccv validation
+	const CCV = /\d\d\d/;
+	let userCCV = $('#cvv').val();
+	let isCCV = false;
+	//if the cvv is valid, the name border and title are changed to the correct color
+	if(CCV.test(userCCV) && $('#payment').val() === 'credit card') {
+		$('#cvv').css('border-color','#c1deeb');
+		$('label[for="cvv"]').css('color','#000');
+		isCCV = true;
+	} //if the cvv is invalid, the page is not submitted and the border and title are highlighted red
+	else if($('#payment').val() === 'credit card') {
+		$('#cvv').css('border-color','#FF0901');
+		$('label[for="cvv"]').css('color','#FF0901');
+		isCCV = false;
+	}
 
+	//the user must select a payment method, otherwise they cannot submit the form
+	if($('#payment').val() === 'select_method') {
+		$('.payment legend').css('color','#FF0901');
+		} else {
+		$('.payment legend').css('color','#000');	
+		}
+	
 	//if all 6 form checks were valid the submit button submits
-	if(condition === 3) {
-		return true;
+	if(isName === true && isEmail === true && isRegistered === true) {
+		if($('#payment').val() != 'credit card' && $('#payment').val() != 'select_method') {
+			return true;
+		} else if($('#payment').val() === 'credit card' && isCreditCard === true && isZipCode === true && isCCV === true) {
+			return true;
+		} else {
+			return false;
+		}
+			
 	} else {
 		return false;
 	}
+		
 }
